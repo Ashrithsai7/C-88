@@ -1,20 +1,126 @@
-var images = ["https://i.postimg.cc/MGn9GJXw/family.jpg","https://i.postimg.cc/qqyYvVbq/grandpa.jpg", "https://i.postimg.cc/wjMnFtMX/father.jpg" , "https://i.postimg.cc/5ymDKL83/bro.jpg", "https://i.postimg.cc/JnL6wtrd/sister.jpg", "https://i.postimg.cc/bw5W5zSK/mother.jpg"];
-var names = ["Ranbir Singh", "Diljeet Singh", "Rocky Singh", "Alia Singh", "Soni Singh"];
-var i = 0;
-function update()
+var canvas = new fabric.Canvas('mycanvas')
+window.addEventListener("keydown",my_keydown)
+
+ball_obj.scaleToWidth(50);
+ball_obj.scaleToHeight(50);
+
+ball_x=0;
+ball_y=0;
+hole_x=0;
+hole_y=0;
+
+block_image_width = 5;
+block_image_height = 5;
+
+function load_img(){
+	fabric.Image.fromURL("golf-h1.png"),function(Img){
+		hloe_obj=Img;
+		hole_obj.scaleToWidth(50);
+		hole_obj.scaleToHeight(50);
+		hole_obj.set({
+			top:hole_y,
+			left:hole_x
+		});
+		canvas.add(hole_obj);
+	}
+	}
+	new_image();
+
+
+function new_image()
 {
-    i++;
-    var numbers_of_family_member_in_array = 5
-    if(i > numbers_of_family_member_in_array)
-      {
-          i = 0;
-      }
-    
-    //Debug the code to store list of images in updatedImage. Use images[i]
-    var updatedImage = [images];
-    //Debug the code to store list of names in updatedName. Use names[i]
-    var updatedName = [names] ;
- 
-    document.getElementById("family_member_image").src = updatedImage;
-    document.getElementById("family_member_name").innerHTML = updatedName;
+	fabric.Image.fromURL("ball.png",function(Img){
+		ball_obj=Img;
+		ball_obj.scaleToWidth(50);
+		ball_obj.scaleToHeight(50);
+		ball_obj.set({
+			top:ball_y,
+			left:ball_x
+		});
+		canvas.add(ball_obj)
+	});
 }
+
+window.addEventListener("keydown", my_keydown);
+
+function my_keydown(e)
+{
+	keyPressed = e.keyCode;
+	console.log(keyPressed);
+	if((ball_x==hole_x)&&(ball_y==ball_y)){
+		canvas.remove(ball_obj);
+		document.getElementById("hd3").innerHTML="YOU HAVE THE HIT THE GOAL!!!";
+		document.getElementById("myCanvas").style.borderColor="red";
+	}
+	
+	else{
+		if(keyPressed == '38')
+		{
+			up();
+			console.log("up");
+		}
+		if(keyPressed == '40')
+		{
+			down();
+			console.log("down");
+		}
+		if(keyPressed == '37')
+		{
+			left();
+			console.log("left");
+		}
+		if(keyPressed == '39')
+		{
+			right();
+			console.log("right");
+		}
+	}
+	
+	function up()
+	{
+		if(ball_y>0){
+			ball_y=ball_y-block_image_height;
+			console.log("Block image height = "+block_image_height)
+			console.log("When up arrow key is pressed,X="+ball_x+",Y="+ball_y)
+			canvas.remove(ball_obj);
+			new_image();
+		}
+	}
+
+	function down()
+	{
+		if(ball_y<=450){
+			ball_y=ball_y+block_image_height;
+			console.log("Block image height = "+block_image_height)
+			console.log("When down arrow key is pressed,X="+ball_x+",Y="+ball_y)
+			canvas.remove(ball_obj);
+			new_image();
+		}
+	}
+
+	function left()
+	{
+		if(ball_x >5)
+		{
+			ball_x=ball_x-block_image_width;
+			console.log("Block image width = "+block_image_width)
+			console.log("When down arrow key is pressed,X="+ball_x+",Y="+ball_y)
+			canvas.remove(ball_obj);
+			new_image();
+		}
+	}
+
+	function right()
+	{
+		if(ball_x <=1050)
+		{
+			ball_x=ball_x+block_image_width;
+			console.log("Block image width = "+block_image_width)
+			console.log("When down arrow key is pressed,X="+ball_x+",Y="+ball_y)
+			canvas.remove(ball_obj);
+			new_image();
+		}
+	}
+	
+}
+
